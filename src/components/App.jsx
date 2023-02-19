@@ -56,7 +56,7 @@ export function App() {
         <Filter value={filter} onChange={changeFilter} />
       )}
       <ContactList
-        contactData={filteredContacts()}
+        contacts={filteredContacts()}
         deleteContact={deleteContact}
       />
     </div>
