@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { Form } from './Form/Form';
 import { ContactList } from './ContactList/ContactList';
 import Filter from './Filter/Filter';
@@ -8,7 +10,7 @@ import css from './App.module.css';
 
 export function App() {
   const [contacts, setContacts] = useState(
-    JSON.parse(localStorage.getItem('contacts')) ?? []
+    () => JSON.parse(localStorage.getItem('contacts')) ?? []
   );
 
   const [filter, setFilter] = useState('');
@@ -27,15 +29,29 @@ export function App() {
         contact => contact.name.toLowerCase() === name.toLowerCase()
       )
     ) {
-      return alert(`${name} is alredy in contacts.`);
+      return toast.warning(`${name} is alredy in contacts.`, {
+        autoClose: 2000,
+        theme: 'colored',
+      });
     } else if (contacts.find(contact => contact.number === number)) {
-      return alert(`${number} is already in contacts`);
-    } else setContacts([...contacts, { id: nanoid(), name, number }]);
+      return toast.warning(`${number} is already in contacts`, {
+        autoClose: 2000,
+        theme: 'colored',
+      });
+    } else {
+      setContacts([...contacts, { id: nanoid(), name, number }]);
+      toast.success(`${name} has been added`, {
+        autoClose: 2000,
+        theme: 'colored',
+      });
+    }
   }
 
   function deleteContact(id) {
     setContacts(contacts.filter(contact => contact.id !== id));
-    return alert('The contact has been deleted');
+    toast.success('The contact has been deleted', {
+      autoClose: 2000,
+    });
   }
 
   function filteredContacts() {
@@ -59,6 +75,7 @@ export function App() {
         contacts={filteredContacts()}
         deleteContact={deleteContact}
       />
+      <ToastContainer />
     </div>
   );
 }
