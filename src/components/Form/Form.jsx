@@ -2,11 +2,7 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import css from './Form.module.css';
 
-export function Form({ onSubmit }) {
-  // state = {
-  //   name: '',
-  //   number: '',
-  // };
+export function Form({ onSubmit }) { 
 
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
